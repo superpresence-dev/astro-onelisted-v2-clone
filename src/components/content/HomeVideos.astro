@@ -1,0 +1,210 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import HomeSectionHead from "@/components/content/HomeSectionHead.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import Img from "@/components/media/Img.astro";
+import imgMain from "@/assets/home/8b8a6bc6a51f1d46e2aabe369f48b5a806849514.png";
+import img1 from "@/assets/home/1ab2b7d8e4cdcbe3695f1d5c9ba843a4e85392c4.png";
+import img2 from "@/assets/home/be67c18cce0c02e26ba34abf4dd55ce3b062c0be.png";
+import img3 from "@/assets/home/a3af14bce4d0c661fcf411d438e639feda9c0186.png";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true } = Astro.props;
+
+const list = [
+  {
+    title:
+      "This Bangkok Condo Is NOT FOR EVERYONE. | Via 34 Thonglor by Sansiri",
+    duration: "16 min",
+    img: img1,
+  },
+  {
+    title:
+      "Inside Thonglor Road’s Tallest Luxury Residence | Noble Form Thonglor",
+    duration: "17 min",
+    img: img2,
+  },
+  {
+    title: "She’s My Top Bangkok Agent. This Is Her First Home!",
+    duration: "15 min",
+    img: img3,
+  },
+];
+---
+
+<Section render={render} paddingTop="even" paddingBottom="even">
+  <HomeSectionHead
+    title="Watch in-person insights of Thailand’s real estate market"
+    linkLabel="See all videos"
+    linkHref="/videos"
+  />
+  <div class="videos_wrap">
+    <article class="videos_highlight">
+      <div class="videos_text">
+        <Heading tag="h3" variant="h6">
+          <a href="/videos"
+            >The honest truth about Bangkok property investment!</a
+          >
+        </Heading>
+        <Paragraph variant="small">
+          In this video, I break down 3 simple strategies to help you approach
+          Bangkok’s real estate market with more clarity and confidence. From
+          understanding rental yields to buying at the right price, this is a
+          practical guide for first-time investors looking to make money from
+          day one.
+        </Paragraph>
+        <p class="videos_meta text-style-xsmall">June 4, 2026 · 12 min</p>
+      </div>
+      <a
+        class="videos_thumb"
+        href="/videos"
+        aria-label="Play video: The honest truth about Bangkok property investment!"
+      >
+        <Img src={imgMain} alt="" />
+        <span class="videos_play" aria-hidden="true">
+          <svg
+            width="48"
+            height="48"
+            viewBox="0 0 48 48"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="24" cy="24" r="24" fill="white" fill-opacity="0.9"
+            ></circle>
+            <path d="M20 17.5v13l11-6.5-11-6.5Z" fill="#191919"></path>
+          </svg>
+        </span>
+      </a>
+    </article>
+    <div class="videos_list">
+      {
+        list.map((item) => (
+          <article class="videos_row">
+            <a
+              class="videos_thumb videos_thumb--small"
+              href="/videos"
+              aria-label={`Play video: ${item.title}`}
+            >
+              <Img src={item.img} alt="" />
+              <span
+                class="videos_duration text-style-xsmall"
+                aria-hidden="true"
+              >
+                {item.duration}
+              </span>
+            </a>
+            <div class="videos_text">
+              <Heading tag="h3" variant="h6">
+                <a href="/videos">{item.title}</a>
+              </Heading>
+              <p class="videos_meta text-style-xsmall">June 4, 2026</p>
+            </div>
+          </article>
+        ))
+      }
+      <Button element="link" href="/videos" variant="link">
+        See all videos
+      </Button>
+    </div>
+  </div>
+</Section>
+
+<style is:global>
+  @layer components {
+    .videos_wrap {
+      display: grid;
+      gap: var(--space-3rem);
+      width: 100%;
+      @media (width >= 62rem) {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .videos_highlight {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1-25rem);
+      .heading a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    .videos_list {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: var(--space-1-5rem);
+    }
+
+    .videos_row {
+      display: grid;
+      grid-template-columns: 15rem 1fr;
+      gap: var(--space-1-25rem);
+      align-items: start;
+      width: 100%;
+      .heading {
+        font-size: var(--text-main);
+      }
+      .heading a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    .videos_text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-0-5rem);
+    }
+
+    .videos_meta {
+      color: var(--text-2);
+    }
+
+    .videos_thumb {
+      position: relative;
+      display: block;
+      aspect-ratio: 16 / 9;
+      overflow: clip;
+      border-radius: var(--radius-0-5rem);
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .videos_thumb--small {
+      aspect-ratio: 16 / 9;
+    }
+
+    .videos_play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .videos_duration {
+      position: absolute;
+      right: var(--space-0-5rem);
+      bottom: var(--space-0-5rem);
+      padding: 0.15em 0.5em;
+      color: var(--color-neutral-0);
+      background-color: color-mix(
+        in lab,
+        var(--color-neutral-90) 80%,
+        transparent
+      );
+      border-radius: var(--radius-0-25rem);
+    }
+  }
+</style>

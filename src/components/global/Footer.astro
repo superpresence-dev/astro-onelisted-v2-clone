@@ -1,6 +1,10 @@
 ---
 import Icon from "@/components/media/Icon.astro";
-import logo from "@/assets/logo/logo.svg";
+import wordmark from "@/assets/icons/logo-onelisted.svg";
+import social1 from "@/assets/icons/social-1.svg";
+import social2 from "@/assets/icons/social-2.svg";
+import social3 from "@/assets/icons/social-3.svg";
+import social4 from "@/assets/icons/social-4.svg";
 import { SITE_NAME } from "@/consts.ts";
 
 interface Props {
@@ -9,36 +13,125 @@ interface Props {
 }
 
 const { render = true } = Astro.props;
+
+const editorial: { label: string; href: string }[][] = [
+  [
+    { label: "Condo reviews", href: "/reviews" },
+    { label: "Luxury", href: "/luxury" },
+    { label: "Renting", href: "/renting" },
+    { label: "Market", href: "/market" },
+    { label: "Living", href: "/living" },
+  ],
+  [
+    { label: "News", href: "/news" },
+    { label: "Buyer’s guide", href: "/guides" },
+    { label: "Neighbourhoods", href: "/neighborhoods" },
+    { label: "Collections", href: "/collections" },
+  ],
+];
+
+const discover: { label: string; href: string }[][] = [
+  [
+    { label: "Condos directory", href: "/condos" },
+    { label: "Videos", href: "/videos" },
+    { label: "About us", href: "/about" },
+  ],
+  [
+    { label: "Newsletter", href: "/newsletter" },
+    { label: "Contact Us", href: "/contact" },
+  ],
+];
+
+const socials = [
+  { label: "YouTube", href: "https://youtube.com", src: social1 },
+  { label: "Instagram", href: "https://instagram.com", src: social2 },
+  { label: "TikTok", href: "https://tiktok.com", src: social3 },
+  { label: "LinkedIn", href: "https://linkedin.com", src: social4 },
+];
 ---
 
 {
   render && (
     <footer class="footer_wrap">
       <div class="footer_inner">
-        <div class="footer_top">
+        <div class="footer_head">
           <a class="footer_logo" href="/" aria-label={SITE_NAME}>
-            <Icon src={logo} variant="full-width" />
+            <Icon src={wordmark} variant="full-width" />
           </a>
-          <nav aria-label="Footer">
-            <ul class="footer_links">
+          <p class="footer_tagline text-style-main">
+            Dedicated to helping you buy, invest and live in Thailand with
+            confidence
+          </p>
+          <ul class="footer_socials" aria-label="Social media">
+            {socials.map((item) => (
               <li>
-                <a class="footer_link" href="/">
-                  Home
+                <a
+                  class="footer_social"
+                  href={item.href}
+                  aria-label={item.label}
+                >
+                  <Icon src={item.src} variant="sm" />
                 </a>
               </li>
-              <li>
-                <a class="footer_link" href="/example-components">
-                  Example Components
-                </a>
-              </li>
-            </ul>
+            ))}
+          </ul>
+        </div>
+        <div class="footer_menus">
+          <nav class="footer_menu_col" aria-label="Editorial">
+            <p class="footer_overline text-style-overline-main">Editorial</p>
+            <div class="footer_menu_lists">
+              {editorial.map((list) => (
+                <ul class="footer_menu_list">
+                  {list.map((link) => (
+                    <li>
+                      <a class="footer_menu_link" href={link.href}>
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </nav>
+          <nav class="footer_menu_col" aria-label="Discover">
+            <p class="footer_overline text-style-overline-main">Discover</p>
+            <div class="footer_menu_lists">
+              {discover.map((list) => (
+                <ul class="footer_menu_list">
+                  {list.map((link) => (
+                    <li>
+                      <a class="footer_menu_link" href={link.href}>
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
           </nav>
         </div>
+        <p class="footer_note text-style-small">
+          OneListed is the personal real estate blog of Pierre Leung, Director
+          at PropertyScout. All property inquiries are handled exclusively by
+          Pierre’s team of real estate consultants at PropertyScout.
+        </p>
         <div class="footer_bottom">
           <p class="footer_copyright text-style-small">
             &copy; <span id="year">{new Date().getFullYear()}</span>&#160;
-            {SITE_NAME}
+            OneListed, All rights reserved.
           </p>
+          <ul class="footer_legal">
+            <li>
+              <a class="footer_legal_link" href="/terms">
+                Term of Service
+              </a>
+            </li>
+            <li>
+              <a class="footer_legal_link" href="/privacy">
+                Privacy Policy
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </footer>
@@ -58,11 +151,10 @@ const { render = true } = Astro.props;
     .footer_wrap {
       display: flex;
       justify-content: center;
-      padding-block: var(--section-space-small);
+      padding-block: var(--space-3rem) var(--space-2rem);
       padding-inline: var(--site-margin);
       background-color: var(--background);
       color: var(--text);
-      border-top: var(--border-width) solid var(--border);
     }
 
     .footer_inner {
@@ -70,21 +162,21 @@ const { render = true } = Astro.props;
       max-width: var(--max-width-content);
       display: flex;
       flex-direction: column;
-      gap: var(--space-2-5rem);
+      gap: var(--space-2rem);
     }
 
-    .footer_top {
+    .footer_head {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      justify-content: space-between;
       gap: var(--space-1-5rem) var(--space-2-5rem);
     }
 
     .footer_logo {
       display: block;
-      width: 7.5rem;
+      width: 9rem;
       max-width: 100%;
+      flex: none;
       transition: opacity var(--hover-duration) var(--hover-ease);
       @media (hover: hover) {
         &:hover {
@@ -93,33 +185,116 @@ const { render = true } = Astro.props;
       }
     }
 
-    .footer_links {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: var(--space-1-5rem);
-      font-size: var(--text-small);
+    .footer_tagline {
+      flex: 1 1 16rem;
+      text-align: center;
       font-weight: var(--primary-medium);
     }
 
-    .footer_link {
-      color: var(--text-2);
-      text-decoration: none;
-      transition: color var(--hover-duration) var(--hover-ease);
+    .footer_socials {
+      display: flex;
+      gap: var(--space-0-5rem);
+      margin-left: auto;
+    }
+
+    .footer_social {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-0-75rem);
+      color: var(--text);
+      background-color: var(--color-neutral-0);
+      border: var(--border-width) solid var(--color-neutral-10);
+      border-radius: var(--radius-full);
+      transition: opacity var(--hover-duration) var(--hover-ease);
       @media (hover: hover) {
         &:hover {
-          color: var(--text);
+          opacity: 0.6;
         }
       }
     }
 
+    .footer_menus {
+      display: grid;
+      gap: var(--space-3rem);
+      padding-block: var(--space-2rem);
+      border-block: var(--border-width) dashed var(--color-neutral-60);
+      @media (width >= 48rem) {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .footer_menu_col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1-5rem);
+    }
+
+    .footer_overline {
+      color: var(--color-neutral-40);
+      text-transform: uppercase;
+    }
+
+    .footer_menu_lists {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-1-5rem);
+    }
+
+    .footer_menu_list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-0-5rem);
+    }
+
+    .footer_menu_link {
+      font-size: var(--text-main);
+      font-weight: var(--primary-semibold);
+      line-height: var(--text-main-line-height);
+      color: var(--text);
+      text-decoration: none;
+      transition: opacity var(--hover-duration) var(--hover-ease);
+      @media (hover: hover) {
+        &:hover {
+          opacity: 0.6;
+        }
+      }
+    }
+
+    .footer_note {
+      color: var(--color-neutral-70);
+    }
+
     .footer_bottom {
-      padding-top: var(--space-1-5rem);
-      border-top: var(--border-width) solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-1rem) var(--space-2-5rem);
     }
 
     .footer_copyright {
-      color: var(--text-2);
+      color: var(--color-neutral-70);
+    }
+
+    .footer_legal {
+      display: flex;
+      gap: var(--space-1-5rem);
+    }
+
+    .footer_legal_link {
+      font-size: var(--text-small);
+      font-weight: var(--primary-medium);
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: var(--color-neutral-10);
+      text-underline-offset: 0.2em;
+      transition: opacity var(--hover-duration) var(--hover-ease);
+      @media (hover: hover) {
+        &:hover {
+          opacity: 0.6;
+        }
+      }
     }
   }
 </style>

@@ -1,0 +1,190 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import HomeSectionHead from "@/components/content/HomeSectionHead.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import Img from "@/components/media/Img.astro";
+import logoOrigin from "@/assets/home/e8c6c12794e2465d1a2d1787bc6a6388e9acd4b3.png";
+import logoAnanda from "@/assets/home/4e41fbf738aed70e2ae7a7c9199224b7e165dcad.png";
+import logoSc from "@/assets/home/d3325fd883ccd4356b685d1d1e13a161880321a5.png";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true } = Astro.props;
+
+const items = [
+  {
+    count: "14 projects",
+    name: "Origin Property",
+    text: "Fast-growing developer spanning affordable to upper-segment condominiums.",
+    img: logoOrigin,
+  },
+  {
+    count: "49 projects",
+    name: "Ananda Development",
+    text: "Transit-oriented developer; condominiums clustered around BTS and MRT stations.",
+    img: logoAnanda,
+  },
+  {
+    count: "11 projects",
+    name: "SC Asset",
+    text: "SET-listed Bangkok developer; mid-to-upper city condominiums along Sukhumvit and inner-city lines.",
+    img: logoSc,
+  },
+];
+---
+
+<Section render={render} paddingTop="even" paddingBottom="even">
+  <HomeSectionHead
+    title="Property developers in Thailand"
+    headingVariant="h5"
+    linkLabel="View all developers"
+    linkHref="/developers"
+  />
+  <div class="developers_wrap">
+    <div class="developers_track" data-carousel>
+      {
+        items.map((item) => (
+          <article class="developers_card">
+            <div class="developers_logo">
+              <Img src={item.img} alt={`${item.name} logo`} transparent />
+            </div>
+            <div class="developers_text">
+              <p class="developers_count text-style-xsmall">{item.count}</p>
+              <Heading tag="h3" variant="h6">
+                <a href="/developers">{item.name}</a>
+              </Heading>
+              <Paragraph variant="small">{item.text}</Paragraph>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+    <div class="developers_nav">
+      <div class="developers_dots" role="presentation">
+        <span class="developers_dot is-active"></span>
+        <span class="developers_dot"></span>
+        <span class="developers_dot"></span>
+      </div>
+      <div class="developers_arrows">
+        <Button
+          variant="arrow"
+          direction="back"
+          label="Previous developers"
+          data-scroll="back"
+        />
+        <Button variant="arrow" label="Next developers" data-scroll="forward" />
+      </div>
+    </div>
+  </div>
+</Section>
+
+<script>
+  document.querySelectorAll(".developers_wrap").forEach((root) => {
+    const track = root.querySelector("[data-carousel]");
+    if (!(track instanceof HTMLElement)) return;
+    root.querySelectorAll("[data-scroll]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const card = track.querySelector(".developers_card");
+        const step = card instanceof HTMLElement ? card.offsetWidth + 20 : 412;
+        track.scrollBy({
+          left: button.getAttribute("data-scroll") === "back" ? -step : step,
+          behavior: "smooth",
+        });
+      });
+    });
+  });
+</script>
+
+<style is:global>
+  @layer components {
+    .developers_wrap {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2rem);
+      width: 100%;
+    }
+
+    .developers_track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(16rem, 24.5rem);
+      gap: var(--space-1-25rem);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .developers_card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2rem);
+      padding: var(--space-1-5rem);
+      background-color: var(--background-2);
+      border-radius: var(--radius-1rem);
+      scroll-snap-align: start;
+      .heading a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    .developers_logo {
+      width: 5rem;
+      height: 5rem;
+      overflow: clip;
+      border-radius: var(--radius-0-5rem);
+      background-color: var(--color-neutral-0);
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .developers_text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-0-5rem);
+    }
+
+    .developers_count {
+      color: var(--text-2);
+      text-transform: uppercase;
+    }
+
+    .developers_nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-1-5rem);
+    }
+
+    .developers_dots {
+      display: flex;
+      gap: var(--space-0-5rem);
+    }
+
+    .developers_dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: var(--radius-full);
+      background-color: var(--color-neutral-20);
+      &.is-active {
+        background-color: var(--color-neutral-90);
+      }
+    }
+
+    .developers_arrows {
+      display: flex;
+      gap: var(--space-0-75rem);
+    }
+  }
+</style>

@@ -1,41 +1,33 @@
 ---
 import Layout from "@/layouts/BaseLayout.astro";
-import Section from "@/components/wrapper/Section.astro";
-import Heading from "@/components/typography/Heading.astro";
-import Eyebrow from "@/components/typography/Eyebrow.astro";
-import Img from "@/components/media/Img.astro";
-import lumos_background from "@/assets/graphics/lumos-background.svg";
-import Icon from "@/components/media/Icon.astro";
-import logo_icon from "@/assets/logo/logo-icon.svg";
-import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import HeroHome from "@/components/section/HeroHome.astro";
+import HomeFeatured from "@/components/content/HomeFeatured.astro";
+import HomeCollection from "@/components/content/HomeCollection.astro";
+import HomeReviews from "@/components/content/HomeReviews.astro";
+import HomeVideos from "@/components/content/HomeVideos.astro";
+import HomeGuides from "@/components/content/HomeGuides.astro";
+import HomeDirectory from "@/components/content/HomeDirectory.astro";
+import HomeSubscribe from "@/components/content/HomeSubscribe.astro";
+import HomeNeighbourhoods from "@/components/content/HomeNeighbourhoods.astro";
+import HomeMarket from "@/components/content/HomeMarket.astro";
+import HomeDevelopers from "@/components/content/HomeDevelopers.astro";
+import HomeCta from "@/components/content/HomeCta.astro";
 ---
 
-<Layout theme="dark">
-  <Section
-    paddingBottom="even"
-    containerClass="flex-grow"
-    paddingTop="even"
-    class="flex-grow"
-    style="min-height: calc(100svh - var(--nav-height));"
-  >
-    <ContentWrapper
-      class="flex-grow theme-brand"
-      variant="card"
-      mediaOpacity={100}
-    >
-      <Icon src={logo_icon} variant="large" />
-      <Heading variant="display" tag="h1" class="margin-block-8"
-        >Style Guide</Heading
-      >
-      <Eyebrow variant="tag">v0.0.4</Eyebrow>
-      <Img
-        slot="column2"
-        src={lumos_background}
-        width={1920}
-        height={1080}
-        loading="eager"
-        fetchPriority="high"
-      />
-    </ContentWrapper>
-  </Section>
+<Layout
+  title="OneListed — Navigate Thailand’s real estate market like a local"
+  description="Stay updated with latest market news, condo reviews and guides to help you buy, invest and live in Thailand with confidence."
+>
+  <HeroHome />
+  <HomeFeatured />
+  <HomeCollection />
+  <HomeReviews />
+  <HomeVideos />
+  <HomeGuides />
+  <HomeDirectory />
+  <HomeSubscribe />
+  <HomeNeighbourhoods />
+  <HomeMarket />
+  <HomeDevelopers />
+  <HomeCta />
 </Layout>

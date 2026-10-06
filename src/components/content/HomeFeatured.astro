@@ -1,0 +1,325 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import Img from "@/components/media/Img.astro";
+import imgHighlight from "@/assets/home/925c12b62df9bf1ee86a855db8b5b6f8afdded47.png";
+import imgRec1 from "@/assets/home/e90ecd21c7631cd32d248e03625ce4495d62efa2.png";
+import imgRec2 from "@/assets/home/8d76dad28f26a1dd66dc3d7eb5a33785c8032506.png";
+import imgRec3 from "@/assets/home/06035f4f1e41b843957082686bfa215f7d4ae381.png";
+import imgList1 from "@/assets/home/41de060ead31ffc0b81a0375056879a77f3e93cf.png";
+import imgCtaBg from "@/assets/home/ab2b0058448acd35fff40052ee506ce2f46d20bc.png";
+import imgPierre from "@/assets/home/f33756c09674fac7288c135e6c4fbd571d5c571b.png";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true } = Astro.props;
+
+const recommends = [
+  {
+    title:
+      "Peck hay road gls site sold for $542.4 million: Future newton condo could launch close to $4,000 psf",
+    img: imgRec1,
+  },
+  {
+    title: "Why the ‘safer’ hdb loan isn’t always the smarter choice",
+    img: imgRec2,
+  },
+  {
+    title:
+      "Bishan condo prices have risen 83% in 10 years. Here’s why buyers still pay up",
+    img: imgRec3,
+  },
+];
+
+const latest = [
+  {
+    title: "Why the ‘safer’ HDB loan isn’t always smarter",
+    img: imgList1,
+  },
+  {
+    title:
+      "The cost of being a global city: How bangkok’s housing and office costs are changing the talent race",
+    img: imgRec1,
+  },
+  {
+    title:
+      "Bishan condo prices have risen 83% in 10 years. Here’s why buyers still pay up",
+    img: imgRec2,
+  },
+  {
+    title:
+      "Riverside vs Sukhumvit in 2026: where launch pricing still leaves room to grow",
+    img: imgHighlight,
+  },
+];
+
+const excerpt =
+  "A side-by-side look at launch pricing against three nearby comparables — and what it really signals for resale.";
+---
+
+<Section render={render} paddingTop="even" paddingBottom="even">
+  <div class="featured_wrap">
+    <div class="featured_top">
+      <article class="featured_highlight">
+        <div class="featured_text">
+          <Heading tag="h2" variant="h5">
+            The property assumptions bangkok buyers still believe in 2026 — and
+            what the numbers actually show
+          </Heading>
+          <Paragraph variant="small">
+            Traditionally, cities have been neatly organised into dedicated
+            zones, and Singapore’s development plan has also embraced this land
+            planning approach.
+          </Paragraph>
+          <p class="featured_meta text-style-xsmall">June 4, 2026</p>
+        </div>
+        <a
+          class="featured_thumb"
+          href="/articles/property-assumptions-2026"
+          aria-label="Read article: The property assumptions bangkok buyers still believe in 2026"
+          tabindex="-1"
+        >
+          <Img src={imgHighlight} alt="" />
+        </a>
+      </article>
+      <div class="featured_recommends">
+        {
+          recommends.map((item) => (
+            <article class="featured_row">
+              <a
+                class="featured_row_thumb"
+                href="/articles"
+                aria-label={`Read article: ${item.title}`}
+                tabindex="-1"
+              >
+                <Img src={item.img} alt="" />
+              </a>
+              <div class="featured_row_text">
+                <Heading tag="h3" variant="h6">
+                  <a href="/articles">{item.title}</a>
+                </Heading>
+                <p class="featured_meta text-style-xsmall">June 4, 2026</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+    <div class="featured_bottom">
+      <div class="featured_latest">
+        {
+          latest.map((item) => (
+            <article class="featured_row featured_row--wide">
+              <a
+                class="featured_row_thumb"
+                href="/articles"
+                aria-label={`Read article: ${item.title}`}
+                tabindex="-1"
+              >
+                <Img src={item.img} alt="" />
+              </a>
+              <div class="featured_row_text">
+                <Heading tag="h3" variant="h6">
+                  <a href="/articles">{item.title}</a>
+                </Heading>
+                <Paragraph variant="small">{excerpt}</Paragraph>
+                <p class="featured_meta text-style-xsmall">June 4, 2026</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <aside class="featured_cta theme-dark">
+        <div class="featured_cta_bg" aria-hidden="true">
+          <Img src={imgCtaBg} alt="" />
+        </div>
+        <div class="featured_cta_content">
+          <Heading tag="h2" variant="h5">
+            Planning to buy property in Thailand?
+          </Heading>
+          <Paragraph variant="small">
+            Share what you are looking for and Pierre’s team at PropertyScout
+            will match you with your ideal properties.
+          </Paragraph>
+          <Button element="link" href="/contact"> Talk to an expert </Button>
+          <div class="featured_cta_person">
+            <Img
+              src={imgPierre}
+              alt="Portrait of Pierre Leung"
+              width={64}
+              height={64}
+            />
+            <div>
+              <p class="featured_cta_name text-style-small">Pierre Leung</p>
+              <p class="featured_cta_role text-style-xsmall">
+                Director at PropertyScout · 11+ years in Bangkok Real Estate
+              </p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</Section>
+
+<style is:global>
+  @layer components {
+    .featured_wrap {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2-5rem);
+      width: 100%;
+    }
+
+    .featured_top,
+    .featured_bottom {
+      display: grid;
+      gap: var(--space-3rem);
+      @media (width >= 62rem) {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (width >= 62rem) {
+      .featured_top {
+        grid-template-columns: 1.16fr 1fr;
+      }
+      .featured_bottom {
+        grid-template-columns: 1.88fr 1fr;
+      }
+    }
+
+    .featured_highlight {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1rem);
+      .heading a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    .featured_text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-0-75rem);
+    }
+
+    .featured_thumb,
+    .featured_row_thumb {
+      display: block;
+      overflow: clip;
+      border-radius: var(--radius-0-5rem);
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .featured_thumb {
+      aspect-ratio: 16 / 9;
+    }
+
+    .featured_recommends,
+    .featured_latest {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1-5rem);
+    }
+
+    .featured_row {
+      display: grid;
+      grid-template-columns: 12.5rem 1fr;
+      gap: var(--space-1-25rem);
+      align-items: start;
+      .heading {
+        font-size: var(--text-main);
+      }
+      .heading a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    .featured_row--wide {
+      grid-template-columns: 16.875rem 1fr;
+      padding-bottom: var(--space-1-5rem);
+      border-bottom: var(--border-width) solid var(--border);
+      &:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+      .featured_row_thumb {
+        aspect-ratio: 16 / 9;
+      }
+    }
+
+    .featured_row_thumb {
+      aspect-ratio: 16 / 9;
+    }
+
+    .featured_row_text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-0-5rem);
+    }
+
+    .featured_meta {
+      color: var(--text-2);
+    }
+
+    .featured_cta {
+      position: relative;
+      overflow: clip;
+      border-radius: var(--radius-1rem);
+      background-color: var(--background);
+      color: var(--text);
+    }
+
+    .featured_cta_bg {
+      position: absolute;
+      inset: 0;
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .featured_cta_content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: var(--space-1rem);
+      padding: var(--space-2-5rem);
+    }
+
+    .featured_cta_person {
+      display: flex;
+      align-items: center;
+      gap: var(--space-0-75rem);
+      margin-top: var(--space-1rem);
+      .image {
+        width: 4rem;
+        height: 4rem;
+        object-fit: cover;
+        border-radius: var(--radius-full);
+      }
+    }
+
+    .featured_cta_name {
+      font-weight: var(--primary-semibold);
+    }
+
+    .featured_cta_role {
+      color: var(--text-2);
+    }
+  }
+</style>

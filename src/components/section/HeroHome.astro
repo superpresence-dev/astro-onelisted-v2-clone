@@ -1,0 +1,97 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Img from "@/components/media/Img.astro";
+import heroImg from "@/assets/home/b8fb905ac5a1949f9d03c5fbb6136fed878e5c91.png";
+
+interface Props extends HTMLAttributes<"section"> {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true, class: className, ...rest } = Astro.props;
+---
+
+{
+  render && (
+    <section
+      class:list={["hero-home_wrap", "theme-brand", className]}
+      {...rest}
+    >
+      <div class="hero-home_media" aria-hidden="true">
+        <Img src={heroImg} alt="" fetchPriority="high" loading="eager" />
+      </div>
+      <div class="hero-home_inner">
+        <div class="hero-home_content">
+          <Heading tag="h1" variant="h1">
+            Navigate Thailand’s real estate market like a local
+          </Heading>
+          <Paragraph variant="large">
+            Stay updated with latest market news, condo reviews and guides to
+            help you buy, invest and live in Thailand with confidence.
+          </Paragraph>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style is:global>
+  @layer components {
+    .hero-home_wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      overflow: clip;
+      background-color: var(--background);
+      color: var(--text);
+    }
+
+    .hero-home_media {
+      position: absolute;
+      inset: 0;
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(
+            90deg,
+            color-mix(in lab, var(--brand) 80%, transparent) 39%,
+            transparent 78%
+          ),
+          linear-gradient(180deg, var(--brand) 0%, transparent 100%);
+      }
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 80% center;
+      }
+    }
+
+    .hero-home_inner {
+      position: relative;
+      width: 100%;
+      max-width: var(--max-width-content);
+      margin-inline: var(--site-margin);
+      padding-block: var(--space-5rem);
+    }
+
+    .hero-home_content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-0-75rem);
+      max-width: 55rem;
+      padding-block: var(--space-1-5rem);
+      .heading {
+        font-weight: var(--primary-bold);
+      }
+      .text {
+        max-width: 40rem;
+        font-weight: var(--primary-medium);
+      }
+    }
+  }
+</style>

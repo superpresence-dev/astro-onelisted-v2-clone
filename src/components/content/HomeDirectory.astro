@@ -1,0 +1,240 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import HomeSectionHead from "@/components/content/HomeSectionHead.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import Img from "@/components/media/Img.astro";
+import img1 from "@/assets/home/925c12b62df9bf1ee86a855db8b5b6f8afdded47.png";
+import img2 from "@/assets/home/9c3c545ebbde2e7683010b23da917a5d1ce8d7e3.png";
+import img3 from "@/assets/home/30774bff28773be6d6c502df3f3cb58905385bf7.png";
+import img4 from "@/assets/home/ec478c967b691b7b98d5a6e94e70c3db1a8fffb5.png";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true } = Astro.props;
+
+const items = [
+  {
+    developer: "MQDC",
+    title: "COBE Kaset – Sripatum",
+    location: "Pak Nam, Mueang Samut Prakan, Samut Prakan",
+    price: "฿6.9M – ฿18M",
+    beds: "1 – 2 beds",
+    size: "22 – 25 sqm",
+    featured: true,
+    img: img1,
+  },
+  {
+    developer: "AP Thailand",
+    title: "Life Ladprao Valley",
+    location: "Lat Phrao, Bangkok",
+    price: "฿4.2M – ฿12M",
+    beds: "1 – 2 beds",
+    size: "26 – 54 sqm",
+    featured: false,
+    img: img2,
+  },
+  {
+    developer: "Ananda",
+    title: "Aspire Erawan Prime",
+    location: "Erawan, Bangkok",
+    price: "฿3.8M – ฿9M",
+    beds: "1 – 2 beds",
+    size: "25 – 48 sqm",
+    featured: false,
+    img: img3,
+  },
+  {
+    developer: "Whizdom",
+    title: "Whizdom Inspire Sukhumvit",
+    location: "Sukhumvit, Bangkok",
+    price: "฿5.5M – ฿15M",
+    beds: "1 – 3 beds",
+    size: "28 – 72 sqm",
+    featured: true,
+    img: img4,
+  },
+];
+---
+
+<Section render={render} paddingTop="even" paddingBottom="even">
+  <HomeSectionHead
+    title="Discover featured condo projects"
+    headingVariant="h5"
+    linkLabel="Browse all condos"
+    linkHref="/condos"
+  />
+  <div class="directory_wrap">
+    <div class="directory_track" data-carousel>
+      {
+        items.map((item) => (
+          <article class="directory_card">
+            <a
+              class="directory_thumb"
+              href="/condos"
+              aria-label={`View project: ${item.title}`}
+              tabindex="-1"
+            >
+              <Img src={item.img} alt="" />
+              {item.featured && (
+                <span class="directory_flag text-style-xsmall">Featured</span>
+              )}
+            </a>
+            <div class="directory_text">
+              <p class="directory_dev text-style-xsmall">{item.developer}</p>
+              <Heading tag="h3" variant="h6">
+                <a href="/condos">{item.title}</a>
+              </Heading>
+              <Paragraph variant="small">{item.location}</Paragraph>
+              <p class="directory_price text-style-main">{item.price}</p>
+              <p class="directory_specs text-style-xsmall">
+                {item.beds} · {item.size}
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+    <div class="directory_nav">
+      <div class="directory_dots" role="presentation">
+        <span class="directory_dot is-active"></span>
+        <span class="directory_dot"></span>
+        <span class="directory_dot"></span>
+      </div>
+      <div class="directory_arrows">
+        <Button
+          variant="arrow"
+          direction="back"
+          label="Previous condos"
+          data-scroll="back"
+        />
+        <Button variant="arrow" label="Next condos" data-scroll="forward" />
+      </div>
+    </div>
+  </div>
+</Section>
+
+<script>
+  document.querySelectorAll(".directory_wrap").forEach((root) => {
+    const track = root.querySelector("[data-carousel]");
+    if (!(track instanceof HTMLElement)) return;
+    root.querySelectorAll("[data-scroll]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const card = track.querySelector(".directory_card");
+        const step = card instanceof HTMLElement ? card.offsetWidth + 20 : 309;
+        track.scrollBy({
+          left: button.getAttribute("data-scroll") === "back" ? -step : step,
+          behavior: "smooth",
+        });
+      });
+    });
+  });
+</script>
+
+<style is:global>
+  @layer components {
+    .directory_wrap {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2rem);
+      width: 100%;
+    }
+
+    .directory_track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(14rem, 18rem);
+      gap: var(--space-1-25rem);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .directory_card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1rem);
+      scroll-snap-align: start;
+      .heading a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    .directory_thumb {
+      position: relative;
+      display: block;
+      aspect-ratio: 4 / 3;
+      overflow: clip;
+      border-radius: var(--radius-0-5rem);
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .directory_flag {
+      position: absolute;
+      top: var(--space-0-75rem);
+      left: var(--space-0-75rem);
+      padding: 0.25em 0.75em;
+      color: var(--color-neutral-90);
+      background-color: var(--color-neutral-0);
+      border-radius: var(--radius-full);
+    }
+
+    .directory_text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-0-25rem);
+    }
+
+    .directory_dev {
+      color: var(--text-2);
+      text-transform: uppercase;
+    }
+
+    .directory_price {
+      font-weight: var(--primary-semibold);
+    }
+
+    .directory_specs {
+      color: var(--text-2);
+    }
+
+    .directory_nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-1-5rem);
+    }
+
+    .directory_dots {
+      display: flex;
+      gap: var(--space-0-5rem);
+    }
+
+    .directory_dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: var(--radius-full);
+      background-color: var(--color-neutral-20);
+      &.is-active {
+        background-color: var(--color-neutral-90);
+      }
+    }
+
+    .directory_arrows {
+      display: flex;
+      gap: var(--space-0-75rem);
+    }
+  }
+</style>

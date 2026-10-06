@@ -1,0 +1,129 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import HomeSectionHead from "@/components/content/HomeSectionHead.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Img from "@/components/media/Img.astro";
+import img1 from "@/assets/home/8d76dad28f26a1dd66dc3d7eb5a33785c8032506.png";
+import img2 from "@/assets/home/e90ecd21c7631cd32d248e03625ce4495d62efa2.png";
+import img3 from "@/assets/home/06035f4f1e41b843957082686bfa215f7d4ae381.png";
+import img4 from "@/assets/home/41de060ead31ffc0b81a0375056879a77f3e93cf.png";
+import img5 from "@/assets/home/f71eb6e67a5f6f328c9e45bbcc9a2a3e2a2d9335.png";
+import img6 from "@/assets/home/6f17af94d6613085e7e658654f40df47232a1f2e.png";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true } = Astro.props;
+
+const items = [
+  {
+    title: "Why the ‘safer’ hdb loan isn’t always the smarter choice",
+    img: img1,
+  },
+  {
+    title:
+      "The cost of being a global city: How bangkok’s housing and office costs are changing the talent race",
+    img: img2,
+  },
+  {
+    title:
+      "Bishan condo prices have risen 83% in 10 years. Here’s why buyers still pay up",
+    img: img3,
+  },
+  {
+    title: "Inside a riverside freehold resale: what $4,000 psf really buys",
+    img: img4,
+  },
+  {
+    title: "Thonglor new launch vs resale next door: the 12% gap explained",
+    img: img5,
+  },
+  {
+    title: "A first walkthrough of Ari’s quietest low-rise lane",
+    img: img6,
+  },
+];
+
+const excerpt =
+  "A side-by-side look at launch pricing against three nearby comparables — and what it really signals for resale.";
+---
+
+<Section render={render} paddingTop="even" paddingBottom="even">
+  <HomeSectionHead
+    title="Condo reviews & walkthroughs"
+    linkLabel="View all reviews"
+    linkHref="/reviews"
+  />
+  <div class="reviews_wrap">
+    {
+      items.map((item) => (
+        <article class="reviews_row">
+          <a
+            class="reviews_thumb"
+            href="/reviews"
+            aria-label={`Read review: ${item.title}`}
+            tabindex="-1"
+          >
+            <Img src={item.img} alt="" />
+          </a>
+          <div class="reviews_text">
+            <Heading tag="h3" variant="h6">
+              <a href="/reviews">{item.title}</a>
+            </Heading>
+            <Paragraph variant="small">{excerpt}</Paragraph>
+            <p class="reviews_meta text-style-xsmall">June 4, 2026</p>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Section>
+
+<style is:global>
+  @layer components {
+    .reviews_wrap {
+      display: grid;
+      gap: var(--space-1-5rem) var(--space-2rem);
+      width: 100%;
+      @media (width >= 62rem) {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .reviews_row {
+      display: grid;
+      grid-template-columns: 12.5rem 1fr;
+      gap: var(--space-1-5rem);
+      align-items: start;
+      .heading a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    .reviews_thumb {
+      display: block;
+      aspect-ratio: 4 / 3;
+      overflow: clip;
+      border-radius: var(--radius-0-5rem);
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .reviews_text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-0-5rem);
+    }
+
+    .reviews_meta {
+      color: var(--text-2);
+    }
+  }
+</style>

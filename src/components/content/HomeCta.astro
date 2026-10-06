@@ -1,0 +1,112 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import Img from "@/components/media/Img.astro";
+import ctaBg from "@/assets/home/ab2b0058448acd35fff40052ee506ce2f46d20bc.png";
+import pierreImg from "@/assets/home/f33756c09674fac7288c135e6c4fbd571d5c571b.png";
+
+interface Props extends HTMLAttributes<"section"> {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true, class: className, ...rest } = Astro.props;
+---
+
+{
+  render && (
+    <section class:list={["cta-home_wrap", "theme-dark", className]} {...rest}>
+      <div class="cta-home_media" aria-hidden="true">
+        <Img src={ctaBg} alt="" />
+      </div>
+      <div class="cta-home_inner">
+        <div class="cta-home_content">
+          <Heading tag="h2" variant="h2">
+            Discover real insights behind Bangkok condos
+          </Heading>
+          <Paragraph variant="large">
+            Pierre is the face of OneListed — every project on the site has been
+            visited in person. The Pierre Listed walkthroughs live on YouTube.
+          </Paragraph>
+          <div class="cta-home_actions">
+            <Button element="link" href="https://youtube.com">
+              Watch on YouTube
+            </Button>
+            <Button element="link" href="/about" emphasis="secondary">
+              Learn more about OneListed
+            </Button>
+          </div>
+        </div>
+        <div class="cta-home_visual">
+          <Img
+            src={pierreImg}
+            alt="Pierre Leung presenting a Bangkok condominium"
+            width={480}
+          />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style is:global>
+  @layer components {
+    .cta-home_wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      overflow: clip;
+      background-color: var(--background);
+      color: var(--text);
+    }
+
+    .cta-home_media {
+      position: absolute;
+      inset: 0;
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .cta-home_inner {
+      position: relative;
+      display: grid;
+      gap: var(--space-3rem);
+      align-items: center;
+      width: 100%;
+      max-width: var(--max-width-content);
+      margin-inline: var(--site-margin);
+      padding-block: var(--space-5rem);
+      @media (width >= 62rem) {
+        grid-template-columns: 1.2fr 1fr;
+      }
+    }
+
+    .cta-home_content {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: var(--space-2rem);
+    }
+
+    .cta-home_actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-0-75rem);
+    }
+
+    .cta-home_visual {
+      overflow: clip;
+      border-radius: var(--radius-1rem);
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+</style>

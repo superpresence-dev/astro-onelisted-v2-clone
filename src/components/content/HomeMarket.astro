@@ -1,0 +1,147 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import HomeSectionHead from "@/components/content/HomeSectionHead.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Img from "@/components/media/Img.astro";
+import img1 from "@/assets/home/925c12b62df9bf1ee86a855db8b5b6f8afdded47.png";
+import img2 from "@/assets/home/8d76dad28f26a1dd66dc3d7eb5a33785c8032506.png";
+import img3 from "@/assets/home/f71eb6e67a5f6f328c9e45bbcc9a2a3e2a2d9335.png";
+import img4 from "@/assets/home/6f17af94d6613085e7e658654f40df47232a1f2e.png";
+import img5 from "@/assets/home/a58306f66a2163c78d0427aadab266233ab084ca.png";
+import img6 from "@/assets/home/41de060ead31ffc0b81a0375056879a77f3e93cf.png";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true } = Astro.props;
+
+const items = [
+  {
+    title:
+      "We Found 5 Rare Jumbo HDB Flats You Can Still Buy In 2025 From $980K",
+    text: "If you’re chasing space without crossing into condo territory…",
+    img: img1,
+  },
+  {
+    title:
+      "A Rare Pair Of Freehold Katong Shophouses Has Hit The Market At $16 Million — With Potential To Unlock More Space",
+    text: "Located within the Katong-Joo Chiat conservation belt… 2,521 sq ft… GPR 3.0.",
+    img: img2,
+  },
+  {
+    title:
+      "Brand New Land’s Freehold Terraces At Tan Sim Boh Road Hit The Market — Starting From $9.38M",
+    text: "Local boutique landed property developer Brand New Land has launched four freehold terrace houses…",
+    img: img3,
+  },
+  {
+    title:
+      "Bangkok’s resale playbook: 5 freehold lanes where listings still lag launches",
+    text: "If you’re chasing space without crossing into new-launch premiums…",
+    img: img4,
+  },
+  {
+    title:
+      "Sathorn vs riverside: where rental yields held above 5% this quarter",
+    text: "A street-level look at gross yields across twelve inner-city projects…",
+    img: img5,
+  },
+  {
+    title:
+      "Leasehold countdown in prime Bangkok: what the last 10 years teach buyers",
+    text: "Prices, premiums and the exit maths nobody puts in the brochure…",
+    img: img6,
+  },
+];
+---
+
+<Section render={render} paddingTop="even" paddingBottom="even">
+  <HomeSectionHead title="More articles" />
+  <div class="market_wrap">
+    {
+      items.map((item) => (
+        <article class="market_row">
+          <a
+            class="market_thumb"
+            href="/articles"
+            aria-label={`Read article: ${item.title}`}
+            tabindex="-1"
+          >
+            <Img src={item.img} alt="" />
+          </a>
+          <div class="market_text">
+            <Heading tag="h3" variant="h6">
+              <a href="/articles">{item.title}</a>
+            </Heading>
+            <Paragraph variant="small">{item.text}</Paragraph>
+            <p class="market_meta text-style-xsmall">June 4, 2026</p>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Section>
+
+<style is:global>
+  @layer components {
+    .market_wrap {
+      display: grid;
+      gap: var(--space-2rem) var(--space-3rem);
+      width: 100%;
+      @media (width >= 62rem) {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .market_row {
+      display: grid;
+      grid-template-columns: 15rem 1fr;
+      gap: var(--space-1-5rem);
+      align-items: start;
+      padding-bottom: var(--space-2rem);
+      border-bottom: var(--border-width) solid var(--border);
+      &:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+      @media (width >= 62rem) {
+        &:nth-last-child(2) {
+          padding-bottom: 0;
+          border-bottom: 0;
+        }
+      }
+      .heading {
+        font-size: var(--text-main);
+      }
+      .heading a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    .market_thumb {
+      display: block;
+      aspect-ratio: 4 / 3;
+      overflow: clip;
+      border-radius: var(--radius-0-5rem);
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .market_text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-0-5rem);
+    }
+
+    .market_meta {
+      color: var(--text-2);
+    }
+  }
+</style>

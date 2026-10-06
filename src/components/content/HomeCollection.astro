@@ -1,0 +1,185 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import HomeSectionHead from "@/components/content/HomeSectionHead.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import Img from "@/components/media/Img.astro";
+import img1 from "@/assets/home/6f7916ffa89a6910a42ef56b60ed82f70ae42800.png";
+import img2 from "@/assets/home/5ff5bccdbf8438051f03dea2d5ffdcdeb574562f.png";
+import img3 from "@/assets/home/95e57797c593204cc3d5cf96496f2da2076f7d03.png";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true } = Astro.props;
+
+const items = [
+  {
+    title: "Branded residences",
+    text: "Branded residences by the riverside, delivering premium living with stunning views.",
+    img: img1,
+  },
+  {
+    title: "First-time buyers",
+    text: "Ideal homes for first-time buyers in bangkok’s vibrant riverside and khlong san areas.",
+    img: img2,
+  },
+  {
+    title: "Pet-friendly picks",
+    text: "Top pet-friendly stays in bangkok perfect for you and your furry friend.",
+    img: img3,
+  },
+];
+---
+
+<Section render={render} paddingTop="even" paddingBottom="even">
+  <HomeSectionHead
+    title="Discover curated condo projects"
+    linkLabel="Browse all collections"
+    linkHref="/collections"
+  />
+  <div class="collection_wrap">
+    <div class="collection_track" data-carousel>
+      {
+        items.map((item) => (
+          <article class="collection_card">
+            <a
+              class="collection_thumb"
+              href="/collections"
+              aria-label={`Browse collection: ${item.title}`}
+              tabindex="-1"
+            >
+              <Img src={item.img} alt="" />
+            </a>
+            <div class="collection_text">
+              <Heading tag="h3" variant="h6">
+                <a href="/collections">{item.title}</a>
+              </Heading>
+              <Paragraph variant="small">{item.text}</Paragraph>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+    <div class="collection_nav">
+      <div class="collection_dots" role="presentation">
+        <span class="collection_dot is-active"></span>
+        <span class="collection_dot"></span>
+        <span class="collection_dot"></span>
+      </div>
+      <div class="collection_arrows">
+        <Button
+          variant="arrow"
+          direction="back"
+          label="Previous collections"
+          data-scroll="back"
+        />
+        <Button
+          variant="arrow"
+          label="Next collections"
+          data-scroll="forward"
+        />
+      </div>
+    </div>
+  </div>
+</Section>
+
+<script>
+  document.querySelectorAll(".collection_wrap").forEach((root) => {
+    const track = root.querySelector("[data-carousel]");
+    if (!(track instanceof HTMLElement)) return;
+    root.querySelectorAll("[data-scroll]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const card = track.querySelector(".collection_card");
+        const step = card instanceof HTMLElement ? card.offsetWidth + 20 : 412;
+        track.scrollBy({
+          left: button.getAttribute("data-scroll") === "back" ? -step : step,
+          behavior: "smooth",
+        });
+      });
+    });
+  });
+</script>
+
+<style is:global>
+  @layer components {
+    .collection_wrap {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2rem);
+      width: 100%;
+    }
+
+    .collection_track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(16rem, 24.5rem);
+      gap: var(--space-1-25rem);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .collection_card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1-25rem);
+      scroll-snap-align: start;
+      .heading a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    .collection_thumb {
+      display: block;
+      aspect-ratio: 4 / 3;
+      overflow: clip;
+      border-radius: var(--radius-0-5rem);
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .collection_text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-0-25rem);
+    }
+
+    .collection_nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-1-5rem);
+    }
+
+    .collection_dots {
+      display: flex;
+      gap: var(--space-0-5rem);
+    }
+
+    .collection_dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: var(--radius-full);
+      background-color: var(--color-neutral-20);
+      &.is-active {
+        background-color: var(--color-neutral-90);
+      }
+    }
+
+    .collection_arrows {
+      display: flex;
+      gap: var(--space-0-75rem);
+    }
+  }
+</style>

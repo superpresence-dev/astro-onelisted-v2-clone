@@ -1,0 +1,125 @@
+---
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import Img from "@/components/media/Img.astro";
+import subscribeBg from "@/assets/home/5d6fd4557db4238ba270ac2f9131865b8f4780fd.png";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true } = Astro.props;
+---
+
+{
+  render && (
+    <section class="subscribe_wrap theme-brand">
+      <div class="subscribe_media" aria-hidden="true">
+        <Img src={subscribeBg} alt="" />
+      </div>
+      <div class="subscribe_inner">
+        <Heading tag="h2" variant="h4" maxWidth={32}>
+          The latest in Thailand’s property market straight to your inbox.
+        </Heading>
+        <Paragraph variant="main">
+          Be the first to know about market news, regulatory updates, project
+          launches and exclusive developer offers.
+        </Paragraph>
+        <form class="subscribe_form" action="/newsletter" method="get">
+          <label class="subscribe_label" for="subscribe-email">
+            Email address
+          </label>
+          <input
+            class="subscribe_input"
+            id="subscribe-email"
+            name="email"
+            type="email"
+            placeholder="your@email.com"
+            required
+            autocomplete="email"
+          />
+          <Button type="submit">Keep me updated!</Button>
+        </form>
+      </div>
+    </section>
+  )
+}
+
+<style is:global>
+  @layer components {
+    .subscribe_wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      overflow: clip;
+      background-color: var(--background);
+      color: var(--text);
+    }
+
+    .subscribe_media {
+      position: absolute;
+      inset: 0;
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(
+          180deg,
+          color-mix(in lab, var(--brand) 60%, transparent) 0%,
+          transparent 80%
+        );
+      }
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .subscribe_inner {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-1-5rem);
+      width: 100%;
+      max-width: 55rem;
+      margin-inline: var(--site-margin);
+      padding-block: var(--space-6rem);
+      text-align: center;
+    }
+
+    .subscribe_form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-0-5rem);
+      width: 100%;
+    }
+
+    .subscribe_label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: clip;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .subscribe_input {
+      flex: 1 1 16rem;
+      max-width: 26rem;
+      padding: var(--button-padding-block) var(--button-padding-inline);
+      color: var(--color-neutral-90);
+      background-color: var(--color-neutral-0);
+      border: var(--border-width) solid var(--color-neutral-10);
+      border-radius: var(--button-radius);
+      font-size: var(--text-main);
+      &::placeholder {
+        color: var(--color-neutral-40);
+      }
+    }
+  }
+</style>

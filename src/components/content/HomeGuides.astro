@@ -1,0 +1,125 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import HomeSectionHead from "@/components/content/HomeSectionHead.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Img from "@/components/media/Img.astro";
+import img1 from "@/assets/home/9c3c545ebbde2e7683010b23da917a5d1ce8d7e3.png";
+import img2 from "@/assets/home/5b7a648fc02909e21be3487977f260ed02add34c.png";
+import img3 from "@/assets/home/30774bff28773be6d6c502df3f3cb58905385bf7.png";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true } = Astro.props;
+
+const items = [
+  {
+    overline: "Foreign ownership",
+    title: "Foreign property ownership in Thailand",
+    text: "What foreigners can and can’t own, and the structures people actually use.",
+    img: img1,
+  },
+  {
+    overline: "The buying process",
+    title: "Buying a Bangkok condo, step by step",
+    text: "From reservation to having the title in your name — every stage, and who does what.",
+    img: img2,
+  },
+  {
+    overline: "Finance & costs",
+    title: "The true cost of a Bangkok condo",
+    text: "What you’ll pay at transfer, what it costs to hold, and what happens to the money at exit.",
+    img: img3,
+  },
+];
+---
+
+<Section render={render} paddingTop="even" paddingBottom="even">
+  <HomeSectionHead
+    title="Essential guides for buying and living in Thailand"
+    linkLabel="View all guides"
+    linkHref="/guides"
+  />
+  <div class="guides_wrap">
+    {
+      items.map((item) => (
+        <article class="guides_card">
+          <a
+            class="guides_thumb"
+            href="/guides"
+            aria-label={`Read guide: ${item.title}`}
+            tabindex="-1"
+          >
+            <Img src={item.img} alt="" />
+          </a>
+          <div class="guides_text">
+            <p class="guides_overline text-style-overline-small">
+              {item.overline}
+            </p>
+            <Heading tag="h3" variant="h6">
+              <a href="/guides">{item.title}</a>
+            </Heading>
+            <Paragraph variant="small">{item.text}</Paragraph>
+            <p class="guides_meta text-style-xsmall">6 chapters</p>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</Section>
+
+<style is:global>
+  @layer components {
+    .guides_wrap {
+      display: grid;
+      gap: var(--space-1-5rem);
+      width: 100%;
+      @media (width >= 48rem) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .guides_card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1-25rem);
+      .heading a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    .guides_thumb {
+      display: block;
+      aspect-ratio: 16 / 9;
+      overflow: clip;
+      border-radius: var(--radius-0-5rem);
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .guides_text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-0-5rem);
+    }
+
+    .guides_overline {
+      color: var(--text-2);
+      text-transform: uppercase;
+    }
+
+    .guides_meta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-0-5rem);
+      color: var(--text-2);
+    }
+  }
+</style>

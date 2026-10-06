@@ -1,0 +1,207 @@
+---
+import Section from "@/components/wrapper/Section.astro";
+import HomeSectionHead from "@/components/content/HomeSectionHead.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import Img from "@/components/media/Img.astro";
+import imgThonglor from "@/assets/home/39b75328578f2e8c35ff8d30a28c3cddfbdbfeeb.png";
+import imgSilom from "@/assets/home/355d1a3ec2e490bdadcfebb8cdce765879adf4be.png";
+import imgAri from "@/assets/home/3dd3d3d9424f3f4563571558eeeee51fdf340e7c.png";
+import imgRiverside from "@/assets/home/6f7916ffa89a6910a42ef56b60ed82f70ae42800.png";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+}
+
+const { render = true } = Astro.props;
+
+const items = [
+  {
+    title: "Thanglor",
+    text: "Bangkok’s dining-and-design strip; the deepest condo bench in the city.",
+    img: imgThonglor,
+  },
+  {
+    title: "Silom",
+    text: "Office towers by day, food streets by night.",
+    img: imgSilom,
+  },
+  {
+    title: "Ari",
+    text: "Leafy, low-rise, café-neighbourhood charm.",
+    img: imgAri,
+  },
+  {
+    title: "Riverside",
+    text: "Chao Phraya views and hotel-led luxury.",
+    img: imgRiverside,
+  },
+];
+---
+
+<Section render={render} paddingTop="even" paddingBottom="even">
+  <HomeSectionHead
+    title="Neighbourhood Guides"
+    linkLabel="Browse all neighbourhoods"
+    linkHref="/neighborhoods"
+  />
+  <div class="neighbourhoods_wrap">
+    <div class="neighbourhoods_track" data-carousel>
+      {
+        items.map((item) => (
+          <article class="neighbourhoods_card theme-dark">
+            <a
+              class="neighbourhoods_visual"
+              href="/neighborhoods"
+              aria-label={`Read guide: ${item.title}`}
+              tabindex="-1"
+            >
+              <Img src={item.img} alt="" />
+            </a>
+            <div class="neighbourhoods_text">
+              <Heading tag="h3" variant="h6">
+                <a href="/neighborhoods">{item.title}</a>
+              </Heading>
+              <Paragraph variant="small">{item.text}</Paragraph>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+    <div class="neighbourhoods_nav">
+      <div class="neighbourhoods_dots" role="presentation">
+        <span class="neighbourhoods_dot is-active"></span>
+        <span class="neighbourhoods_dot"></span>
+        <span class="neighbourhoods_dot"></span>
+      </div>
+      <div class="neighbourhoods_arrows">
+        <Button
+          variant="arrow"
+          direction="back"
+          label="Previous neighbourhoods"
+          data-scroll="back"
+        />
+        <Button
+          variant="arrow"
+          label="Next neighbourhoods"
+          data-scroll="forward"
+        />
+      </div>
+    </div>
+  </div>
+</Section>
+
+<script>
+  document.querySelectorAll(".neighbourhoods_wrap").forEach((root) => {
+    const track = root.querySelector("[data-carousel]");
+    if (!(track instanceof HTMLElement)) return;
+    root.querySelectorAll("[data-scroll]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const card = track.querySelector(".neighbourhoods_card");
+        const step = card instanceof HTMLElement ? card.offsetWidth + 20 : 412;
+        track.scrollBy({
+          left: button.getAttribute("data-scroll") === "back" ? -step : step,
+          behavior: "smooth",
+        });
+      });
+    });
+  });
+</script>
+
+<style is:global>
+  @layer components {
+    .neighbourhoods_wrap {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2rem);
+      width: 100%;
+    }
+
+    .neighbourhoods_track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(16rem, 24.5rem);
+      gap: var(--space-1-25rem);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .neighbourhoods_card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      min-height: 18rem;
+      overflow: clip;
+      border-radius: var(--radius-0-5rem);
+      background-color: var(--background);
+      color: var(--text);
+      scroll-snap-align: start;
+      .heading a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+
+    .neighbourhoods_visual {
+      position: absolute;
+      inset: 0;
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(
+          180deg,
+          transparent 40%,
+          color-mix(in lab, var(--color-neutral-90) 85%, transparent) 100%
+        );
+      }
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .neighbourhoods_text {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-0-25rem);
+      padding: var(--space-1-5rem);
+    }
+
+    .neighbourhoods_nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-1-5rem);
+    }
+
+    .neighbourhoods_dots {
+      display: flex;
+      gap: var(--space-0-5rem);
+    }
+
+    .neighbourhoods_dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: var(--radius-full);
+      background-color: var(--color-neutral-20);
+      &.is-active {
+        background-color: var(--color-neutral-90);
+      }
+    }
+
+    .neighbourhoods_arrows {
+      display: flex;
+      gap: var(--space-0-75rem);
+    }
+  }
+</style>

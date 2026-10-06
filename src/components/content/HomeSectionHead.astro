@@ -1,0 +1,54 @@
+---
+import Heading from "@/components/typography/Heading.astro";
+import Button from "@/components/Button.astro";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+  /** Section title. Supports inline markup. */
+  title?: string;
+  /** Heading size. */
+  headingVariant?: "h4" | "h5";
+  /** Link label. Omit to hide the link. */
+  linkLabel?: string;
+  /** Link destination. */
+  linkHref?: string;
+}
+
+const {
+  render = true,
+  title,
+  headingVariant = "h4",
+  linkLabel,
+  linkHref,
+} = Astro.props;
+---
+
+{
+  render && title && (
+    <div class="section-head_wrap">
+      <Heading tag="h2" variant={headingVariant}>
+        <Fragment set:html={title} />
+      </Heading>
+      {linkLabel && (
+        <Button element="link" href={linkHref ?? "#"} variant="link">
+          {linkLabel}
+        </Button>
+      )}
+    </div>
+  )
+}
+
+<style is:global>
+  @layer components {
+    .section-head_wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: var(--space-1rem) var(--space-2-5rem);
+      padding-bottom: var(--space-2rem);
+      border-bottom: var(--border-width) dashed var(--color-neutral-60);
+    }
+  }
+</style>
